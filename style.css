@@ -151,7 +151,6 @@ nav ul li a:hover {
     overflow: hidden;
 }
 
-/* Dot grid background */
 .hero::before {
     content: '';
     position: absolute;
@@ -162,7 +161,6 @@ nav ul li a:hover {
     z-index: 0;
 }
 
-/* Soft radial fade */
 .hero::after {
     content: '';
     position: absolute;
@@ -302,7 +300,6 @@ h1 .muted {
     transform: translateY(-6px) scale(1.02) !important;
 }
 
-/* Sticky note top-left */
 .card-note {
     top: 140px;
     left: 60px;
@@ -330,7 +327,6 @@ h1 .muted {
     font-family: 'DM Sans', sans-serif;
 }
 
-/* Checklist card */
 .card-check {
     top: 300px;
     left: 90px;
@@ -350,7 +346,6 @@ h1 .muted {
     height: 32px;
 }
 
-/* Reminder card top-right */
 .card-reminder {
     top: 120px;
     right: 60px;
@@ -397,7 +392,6 @@ h1 .muted {
     font-weight: 500;
 }
 
-/* Clock icon */
 .card-clock {
     top: 150px;
     right: 295px;
@@ -417,7 +411,6 @@ h1 .muted {
     height: 38px;
 }
 
-/* Tasks card bottom-left */
 .card-tasks {
     bottom: 100px;
     left: 60px;
@@ -543,7 +536,6 @@ h1 .muted {
     color: #16a34a;
 }
 
-/* Integrations card bottom-right */
 .card-integrations {
     bottom: 100px;
     right: 60px;
@@ -793,7 +785,7 @@ section {
 }
 
 /* =========================
-   CONTACT SECTION
+   CONTACT SECTION - ENHANCED
 ========================= */
 
 .contact-section {
@@ -846,7 +838,7 @@ section {
     z-index: 1;
 }
 
-.contact-box p {
+.contact-box > p {
     font-size: 16px;
     color: var(--gray);
     margin-bottom: 40px;
@@ -855,50 +847,111 @@ section {
     z-index: 1;
 }
 
-.contact-form {
-    display: flex;
-    gap: 14px;
-    max-width: 480px;
+.contact-form-full {
+    max-width: 600px;
     margin: 0 auto;
     position: relative;
     z-index: 1;
 }
 
-.contact-form input {
-    flex: 1;
-    padding: 14px 20px;
+.form-row-full {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-group-full {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-group-full label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+}
+
+.form-group-full input,
+.form-group-full select,
+.form-group-full textarea {
+    padding: 14px 18px;
     border: 1.5px solid rgba(0,0,0,0.10);
     border-radius: 12px;
     font-size: 14px;
     font-family: 'DM Sans', sans-serif;
     background: #f9fafb;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
+    color: var(--black);
 }
 
-.contact-form input:focus {
+.form-group-full input:focus,
+.form-group-full select:focus,
+.form-group-full textarea:focus {
     border-color: var(--blue);
     background: white;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
 }
 
-.contact-form button {
+.form-group-full textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.btn-submit {
+    width: 100%;
     background: var(--blue);
     color: white;
     border: none;
     border-radius: 12px;
-    padding: 14px 24px;
-    font-size: 14px;
-    font-weight: 500;
+    padding: 16px 32px;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
     font-family: 'DM Sans', sans-serif;
-    white-space: nowrap;
     transition: all 0.25s ease;
+    box-shadow: 0 4px 20px rgba(37,99,235,0.35);
+    margin-top: 8px;
 }
 
-.contact-form button:hover {
+.btn-submit:hover:not(:disabled) {
     background: #1d4ed8;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(37,99,235,0.40);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(37,99,235,0.45);
+}
+
+.btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-loader {
+    display: inline-block;
+}
+
+.form-message {
+    margin-top: 20px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.form-message.success {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+.form-message.error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
 }
 
 /* =========================
@@ -981,15 +1034,6 @@ footer nav ul {
     }
     50% {
         transform: rotate(-3deg) translateY(-10px);
-    }
-}
-
-@keyframes floatLogo {
-    0%, 100% {
-        transform: translate(-50%, -200px) translateY(0);
-    }
-    50% {
-        transform: translate(-50%, -200px) translateY(-8px);
     }
 }
 
@@ -1076,8 +1120,8 @@ footer nav ul {
         padding: 60px 32px;
     }
 
-    .contact-form {
-        flex-direction: column;
+    .form-row-full {
+        grid-template-columns: 1fr;
     }
 
     footer {
