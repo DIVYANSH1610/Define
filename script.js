@@ -1,4 +1,91 @@
 // =========================
+// EMAILJS CONFIGURATION
+// =========================
+
+const EMAILJS_PUBLIC_KEY = 'V7ul_30yyf4Nmz0lo';
+const EMAILJS_SERVICE_ID = 'service_bw3y1kc';
+const EMAILJS_TEMPLATE_ADMIN = 'template_isnhhdf'; // ✅ Admin notification (to you)
+const EMAILJS_TEMPLATE_USER = 'template_q8z67u8'; // ✅ User auto-response
+
+// Initialize EmailJS
+(function() {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+})();
+
+// =========================
+// FORM SUBMISSION HANDLER
+// =========================
+
+const contactForm = document.getElementById('contactForm');
+const submitBtn = document.getElementById('submitBtn');
+const formMessage = document.getElementById('formMessage');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Disable submit button
+        submitBtn.disabled = true;
+        submitBtn.querySelector('.btn-text').style.display = 'none';
+        submitBtn.querySelector('.btn-loader').style.display = 'inline-block';
+        
+        // Hide previous messages
+        formMessage.style.display = 'none';
+        
+        try {
+            // Get form data
+            const formData = new FormData(contactForm);
+            const data = {
+                from_name: formData.get('from_name'),
+                from_email: formData.get('from_email'),
+                service: formData.get('service'),
+                budget: formData.get('budget') || 'Not specified',
+                message: formData.get('message')
+            };
+            
+            // Send email to admin (you)
+            await emailjs.send(
+                EMAILJS_SERVICE_ID,
+                EMAILJS_TEMPLATE_ADMIN,
+                data
+            );
+            
+            // Send auto-response to user
+            await emailjs.send(
+                EMAILJS_SERVICE_ID,
+                EMAILJS_TEMPLATE_USER,
+                data
+            );
+            
+            // Show success message
+            showMessage('success', '✓ Message sent successfully! Check your email for confirmation.');
+            
+            // Reset form
+            contactForm.reset();
+            
+        } catch (error) {
+            console.error('Email send error:', error);
+            showMessage('error', '✗ Something went wrong. Please try again or email us directly at define.devincept@gmail.com');
+        } finally {
+            // Re-enable submit button
+            submitBtn.disabled = false;
+            submitBtn.querySelector('.btn-text').style.display = 'inline-block';
+            submitBtn.querySelector('.btn-loader').style.display = 'none';
+        }
+    });
+}
+
+function showMessage(type, text) {
+    formMessage.className = `form-message ${type}`;
+    formMessage.textContent = text;
+    formMessage.style.display = 'block';
+    
+    setTimeout(() => {
+        formMessage.style.display = 'none';
+    }, 8000);
+}
+
+// =========================
 // SCROLL REVEAL ANIMATIONS
 // =========================
 
@@ -9,11 +96,8 @@ const observer = new IntersectionObserver((entries) => {
             observer.unobserve(entry.target);
         }
     });
-}, {
-    threshold: 0.1
-});
+}, { threshold: 0.1 });
 
-// Observe all elements with 'reveal' class
 document.querySelectorAll('.reveal').forEach(element => {
     observer.observe(element);
 });
@@ -52,7 +136,7 @@ window.addEventListener('load', () => {
 });
 
 // =========================
-// SMOOTH SCROLL FOR NAVIGATION
+// SMOOTH SCROLL
 // =========================
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -61,43 +145,15 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         const target = document.querySelector(this.getAttribute('href'));
         
         if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     });
 });
 
 // =========================
-// FORM SUBMISSION HANDLER
-// =========================
-
-const contactForm = document.querySelector('.contact-form');
-
-if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const emailInput = contactForm.querySelector('input[type="email"]');
-        const email = emailInput.value;
-        
-        // Basic validation
-        if (email && email.includes('@')) {
-            // Show success message
-            alert(`Thanks! We'll reach out to ${email} within 24 hours.`);
-            emailInput.value = '';
-        } else {
-            alert('Please enter a valid email address.');
-        }
-    });
-}
-
-// =========================
 // NAVBAR SCROLL EFFECT
 // =========================
 
-let lastScroll = 0;
 const navbar = document.querySelector('nav');
 
 window.addEventListener('scroll', () => {
@@ -108,8 +164,6 @@ window.addEventListener('scroll', () => {
     } else {
         navbar.style.boxShadow = 'none';
     }
-    
-    lastScroll = currentScroll;
 });
 
 // =========================
@@ -166,14 +220,17 @@ document.querySelectorAll('.btn-cta, .btn-primary').forEach(button => {
             button.textContent.includes('Get a quote')) {
             e.preventDefault();
             
-            // Scroll to contact section
             const contactSection = document.querySelector('#contact');
             if (contactSection) {
-                contactSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+                contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
     });
 });
+
+// =========================
+// CONSOLE MESSAGE
+// =========================
+
+console.log('%c👋 Welcome to Define Studio!', 'font-size: 20px; font-weight: bold; color: #2563eb;');
+console.log('%cInterested in how we built this? define.devincept@gmail.com', 'font-size: 14px; color: #6b7280;');
